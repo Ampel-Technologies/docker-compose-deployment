@@ -36,8 +36,17 @@ services:
       - MW_DB_USER=${MW_DB_USER}
       - MW_DB_NAME=${MW_DB_NAME}
       - MW_encryptKey=${MW_encryptKey}
+      - PYSRV_IS_PRODUCTION={PYSRV_IS_PRODUCTION},
+      - PYSRV_DATABASE_HOST={PYSRV_DATABASE_HOST},
+      - PYSRV_DATABASE_PORT={PYSRV_DATABASE_PORT},
+      - PYSRV_DATABASE_NAME={PYSRV_DATABASE_NAME},
+      - PYSRV_DATABASE_USER=${MW_DB_USER},
+      - PYSRV_DATABASE_PASSWORD=${MW_DB_PASSWORD},
+      - PYSRV_CRYPT_KEY=${MW_encryptKey},
+      - PYSRV_COOKIE_HTTPS_ONLY={PYSRV_COOKIE_HTTPS_ONLY},
+      - PYSRV_REDIS_HOST={PYSRV_REDIS_HOST},
+      - PYSRV_CORS_ALLOW_ORIGIN={PYSRV_CORS_ALLOW_ORIGIN}
     volumes:
-      - ${CONF_PATH}:/conf
       - ${FIRMWARE_PATH}:/conf/firmware
       - ${BACKUPS_PATH}:/conf/backups
     extra_hosts:
