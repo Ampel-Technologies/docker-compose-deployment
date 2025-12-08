@@ -11,7 +11,7 @@ services:
       - db_data:/var/lib/postgresql
       - ./init-db.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
-      - "5432:5432"
+      - "5432"
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -q -U ${MW_DB_USER} -d ${MW_DB_NAME}" ]
       interval: 5s
@@ -21,7 +21,7 @@ services:
   redis:
     image: redis/redis-stack-server:latest
     ports:
-      - "6379:6379"
+      - "6379"
 
   mikroman:
     build:
@@ -54,7 +54,7 @@ services:
       context: ./mikrofront
       dockerfile: Dockerfile
     ports:
-      - "80:80"
+      - "80"
     volumes:
       - ./mikrofront/nginx.conf:/etc/nginx/conf.d/default.conf
       - ${CONF_PATH}:/conf
