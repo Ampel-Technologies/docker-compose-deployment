@@ -22,6 +22,8 @@ services:
 
   prepare-config:
     image: alpine
+    volumes:
+      - shared_config:/conf
     command: >
       sh -c '
       printf "{\n\
@@ -46,8 +48,6 @@ services:
       > /conf/server-conf.json
       '
 
-    volumes:
-      - shared_config:/conf
 
   mikroman:
     build:
