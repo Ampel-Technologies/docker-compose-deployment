@@ -8,7 +8,7 @@ RUN apt-get -y install cron
 RUN apt-get install -y iputils-ping
 RUN apt-get install -y net-tools
 RUN apt-get install -y git
-RUN apt-get install -y psutils
+RUN apt-get install -y procps
 RUN apt-get install -y jq
 
 RUN touch /var/log/cron.log
