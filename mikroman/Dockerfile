@@ -42,7 +42,7 @@ RUN mkdir /tmp/pysrv_spooler
 # we don't need this file with Docker but uwsgi looks for it
 RUN echo `date +%s` >/app/VERSION
 
-EXPOSE 80
+EXPOSE 8181
 
 
 # our server config file

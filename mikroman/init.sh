@@ -73,8 +73,8 @@ EOF1
         echo "SQL commands executed successfully."
     fi
         cron
-        uwsgi --ini /app/conf/uwsgi.ini:uwsgi-production --touch-reload=/app/reload
+        uwsgi --ini /app/conf/uwsgi.ini:uwsgi-production --touch-reload=/app/reload --http 0.0.0.0:8181
 else
     cron
-    uwsgi --ini /app/conf/uwsgi.ini:uwsgi-production --touch-reload=/app/reload
+    uwsgi --ini /app/conf/uwsgi.ini:uwsgi-production --touch-reload=/app/reload --http 0.0.0.0:8181
 fi
