@@ -41,8 +41,7 @@ services:
         "PYSRV_DOMAIN_NAME": "'"${MW_DOMAIN_NAME}"'",
         "PYSRV_CORS_ALLOW_ORIGIN": "'"${MW_CORS_ALLOW_ORIGIN}"'"
       }
-      EOF
-        tail -f /dev/null
+        EOF
       '
     volumes:
       - shared_config:/conf
