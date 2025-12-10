@@ -64,6 +64,6 @@ ENV ENVBUILDMODE=$BUILDMODE
 RUN echo "BUILDMODE $ENVBUILDMODE"
 
 # run in shell mode with ENV expansion
-RUN cd /app && bash init.sh
+RUN cd /app && bash -x init.sh
 
 
