@@ -51,8 +51,8 @@ EXPOSE 80
 # - it is also possible to override the config with env variables, either here
 #   or in Amazon ECS or Kubernetes configuration
 #COPY /app/real-server-config.json /app/real-server-config.json
-# ENV PYSRV_DATABASE_HOST host.docker.internal
-# ENV PYSRV_REDIS_HOST host.docker.internal
+# ENV PYSRV_DATABASE_HOST postgresql
+# ENV PYSRV_REDIS_HOST redis
 # ENV PYSRV_DATABASE_PASSWORD x
 
 # build either a production or dev image

@@ -10,8 +10,6 @@ services:
     volumes:
       - db_data:/var/lib/postgresql
       - ./init-db.sql:/docker-entrypoint-initdb.d/init.sql
-    ports:
-      - "5432"
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -q -U ${MW_DB_USER} -d ${MW_DB_NAME}" ]
       interval: 5s
@@ -20,14 +18,13 @@ services:
 
   redis:
     image: redis/redis-stack-server:latest
-    ports:
+    expose:
       - "6379"
 
   mikroman:
     build:
       context: ./mikroman
       dockerfile: Dockerfile
-    network_mode: "host"
     entrypoint: bash -c "cd /app && ./init.sh"
     environment:
       - MW_SERVER_IP=${MW_SERVER_IP}
@@ -37,20 +34,18 @@ services:
       - MW_DB_NAME=${MW_DB_NAME}
       - MW_encryptKey=${MW_encryptKey}
       - PYSRV_IS_PRODUCTION={PYSRV_IS_PRODUCTION},
-      - PYSRV_DATABASE_HOST={PYSRV_DATABASE_HOST},
+      - PYSRV_DATABASE_HOST=postgres,
       - PYSRV_DATABASE_PORT={PYSRV_DATABASE_PORT},
       - PYSRV_DATABASE_NAME={PYSRV_DATABASE_NAME},
       - PYSRV_DATABASE_USER=${MW_DB_USER},
       - PYSRV_DATABASE_PASSWORD=${MW_DB_PASSWORD},
       - PYSRV_CRYPT_KEY=${MW_encryptKey},
       - PYSRV_COOKIE_HTTPS_ONLY={PYSRV_COOKIE_HTTPS_ONLY},
-      - PYSRV_REDIS_HOST={PYSRV_REDIS_HOST},
+      - PYSRV_REDIS_HOST=redis,
       - PYSRV_CORS_ALLOW_ORIGIN={PYSRV_CORS_ALLOW_ORIGIN}
     volumes:
       - ${FIRMWARE_PATH}:/conf/firmware
       - ${BACKUPS_PATH}:/conf/backups
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
     depends_on:
       postgres:
         condition: service_healthy
@@ -62,14 +57,12 @@ services:
     build:
       context: ./mikrofront
       dockerfile: Dockerfile
-    ports:
+    expose:
       - "80"
     volumes:
       - ./mikrofront/nginx.conf:/etc/nginx/conf.d/default.conf
       - ${CONF_PATH}:/conf
     depends_on:
       - mikroman
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
 volumes:
   db_data:
