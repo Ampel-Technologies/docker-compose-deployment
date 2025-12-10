@@ -1,7 +1,6 @@
 services:
   postgres:
     image: postgres:latest
-    container_name: postgres
     environment:
       POSTGRES_USER: ${MW_DB_USER}
       POSTGRES_PASSWORD: ${MW_DB_PASSWORD}
