@@ -10,23 +10,10 @@ fi
 
 # First Check if db is ready and accepting connections
 
-python3 /app/testdb.py
-
-# Check if the Python script ran successfully
-if [ $? -ne 0 ]; then
-    echo "An error occurred while executing the SQL commands."
-    exit 1
-else
-    echo "Good News! Database is Running. :)"
-fi
-
-CONTAINER_ALREADY_STARTED="CONTAINER_ALREADY_STARTED_PLACEHOLDER"
-if [ ! -e $CONTAINER_ALREADY_STARTED ]; then
-    echo "-- Initializing the mikroman for first run  --"
-
-    if [ ! -f ${CONF_PATH}/server-conf.jso ]; then
+if [ ! -f ${CONF_PATH}/server-conf.json ]; then
     echo "-- Config file not found, building one  --"
-cat << EOF1 | tee ${CONF_PATH}/server-conf.json >/dev/null
+    mkdir -p ${CONF_PATH}
+cat << EOF1 | tee ${CONF_PATH}/server-conf.json
 {
     "PYSRV_IS_PRODUCTION": "1",
     "PYSRV_DATABASE_HOST": "${PYSRV_DATABASE_HOST}",
@@ -44,7 +31,21 @@ cat << EOF1 | tee ${CONF_PATH}/server-conf.json >/dev/null
     "PYSRV_CORS_ALLOW_ORIGIN": "${PYSRV_CORS_ALLOW_ORIGIN}"
 }
 EOF1
-    fi
+fi
+
+python3 /app/testdb.py
+
+# Check if the Python script ran successfully
+if [ $? -ne 0 ]; then
+    echo "An error occurred while executing the SQL commands."
+    exit 1
+else
+    echo "Good News! Database is Running. :)"
+fi
+
+CONTAINER_ALREADY_STARTED="CONTAINER_ALREADY_STARTED_PLACEHOLDER"
+if [ ! -e $CONTAINER_ALREADY_STARTED ]; then
+    echo "-- Initializing the mikroman for first run  --"
 
     # YOUR_JUST_ONCE_LOGIC_HERE
     cd /app && export PYTHONPATH=/app/py && export PYSRV_CONFIG_PATH=/conf/server-conf.json && python3 scripts/dbmigrate.py
