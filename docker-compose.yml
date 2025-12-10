@@ -43,6 +43,7 @@ services:
       - PYSRV_REDIS_HOST=redis,
       - PYSRV_CORS_ALLOW_ORIGIN={PYSRV_CORS_ALLOW_ORIGIN}
     volumes:
+      - ${CONF_PATH}:/conf
       - ${FIRMWARE_PATH}:/conf/firmware
       - ${BACKUPS_PATH}:/conf/backups
     depends_on:
