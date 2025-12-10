@@ -85,3 +85,4 @@ services:
       - mikroman
 volumes:
   db_data:
+  shared_config:
