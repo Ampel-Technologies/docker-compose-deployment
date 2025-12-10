@@ -41,13 +41,12 @@ python3 /app/testdb.py
 # Check if the Python script ran successfully
 if [ $? -ne 0 ]; then
     echo "An error occurred while executing the SQL commands."
-    exit 1
 else
     echo "Good News! Database is Running. :)"
 fi
 
-CONTAINER_ALREADY_STARTED="CONTAINER_ALREADY_STARTED_PLACEHOLDER"
-if [ ! -e $CONTAINER_ALREADY_STARTED ]; then
+CONTAINER_ALREADY_STARTED=/conf/init_complete
+if [ ! -f $CONTAINER_ALREADY_STARTED ]; then
     echo "-- Initializing the mikroman for first run  --"
 
     # YOUR_JUST_ONCE_LOGIC_HERE
