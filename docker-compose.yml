@@ -27,19 +27,19 @@ services:
         cat << 'EOF' > /shared/config.json
         {
           \"PYSRV_IS_PRODUCTION\": \"1\",
-          \"PYSRV_DATABASE_HOST\": \"${PYSRV_DATABASE_HOST}\",
-          \"PYSRV_DATABASE_HOST_POSTGRESQL\": \"${PYSRV_DATABASE_HOST}\",
-          \"PYSRV_DATABASE_PORT\": \"${PYSRV_DATABASE_PORT}\",
-          \"PYSRV_DATABASE_NAME\": \"${PYSRV_DATABASE_NAME}\",
-          \"PYSRV_DATABASE_USER\": \"${PYSRV_DATABASE_USER}\",
-          \"PYSRV_DATABASE_PASSWORD\": \"${PYSRV_DATABASE_PASSWORD}\",
-          \"PYSRV_CRYPT_KEY\": \"${PYSRV_CRYPT_KEY}\",
+          \"PYSRV_DATABASE_HOST\": \"${MW_DB_HOST}\",
+          \"PYSRV_DATABASE_HOST_POSTGRESQL\": \"${MW_DB_HOST}\",
+          \"PYSRV_DATABASE_PORT\": \"${MW_DATABASE_PORT}\",
+          \"PYSRV_DATABASE_NAME\": \"${MW_DB_NAME}\",
+          \"PYSRV_DATABASE_USER\": \"${MW_DB_USER}\",
+          \"PYSRV_DATABASE_PASSWORD\": \"${MW_DB_PASSWORD}\",
+          \"PYSRV_CRYPT_KEY\": \"${MW_encryptKey}\",
           \"PYSRV_BACKUP_FOLDER\": \"/conf/backups\",
           \"PYSRV_FIRM_FOLDER\": \"/conf/firmware\",
-          \"PYSRV_COOKIE_HTTPS_ONLY\": \"${PYSRV_COOKIE_HTTPS_ONLY}\",
-          \"PYSRV_REDIS_HOST\": \"${PYSRV_REDIS_HOST}\",
-          \"PYSRV_DOMAIN_NAME\": \"${PYSRV_DOMAIN_NAME}\",
-          \"PYSRV_CORS_ALLOW_ORIGIN\": \"${PYSRV_CORS_ALLOW_ORIGIN}\"
+          \"PYSRV_COOKIE_HTTPS_ONLY\": \"${MW_COOKIE_HTTPS_ONLY}\",
+          \"PYSRV_REDIS_HOST\": \"redis\",
+          \"PYSRV_DOMAIN_NAME\": \"${MW_DOMAIN_NAME}\",
+          \"PYSRV_CORS_ALLOW_ORIGIN\": \"${MW_CORS_ALLOW_ORIGIN}\"
         }
         EOF
       "
@@ -62,9 +62,9 @@ services:
       - PYSRV_IS_PRODUCTION=1,
       - PYSRV_DATABASE_HOST=postgres,
       - PYSRV_CRYPT_KEY=${MW_encryptKey},
-      - PYSRV_COOKIE_HTTPS_ONLY=${PYSRV_COOKIE_HTTPS_ONLY},
+      - PYSRV_COOKIE_HTTPS_ONLY=${MW_COOKIE_HTTPS_ONLY},
       - PYSRV_REDIS_HOST=redis,
-      - PYSRV_CORS_ALLOW_ORIGIN=${PYSRV_CORS_ALLOW_ORIGIN}
+      - PYSRV_CORS_ALLOW_ORIGIN=${MW_CORS_ALLOW_ORIGIN}
     volumes:
       - shared_config:/conf
     depends_on:
