@@ -22,9 +22,9 @@ services:
 
   prepare-config:
     image: alpine
-    command: >
+    command: |
       sh -c '
-        cat <<EOF >/conf/server-conf.json
+      cat <<EOF >/conf/server-conf.json
 {
   "PYSRV_IS_PRODUCTION": "1",
   "PYSRV_DATABASE_HOST": "'"${MW_DB_HOST}"'",
@@ -43,6 +43,7 @@ services:
 }
 EOF
       '
+
     volumes:
       - shared_config:/conf
 
