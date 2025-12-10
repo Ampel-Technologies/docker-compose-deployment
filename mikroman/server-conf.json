@@ -1,6 +1,6 @@
 {
     "name": "python server config template - rename me",
-    "PYSRV_IS_PRODUCTION": "1",
+    "PYSRV_IS_PRODUCTION": 1,
     "PYSRV_DATABASE_HOST": "postgres",
     "PYSRV_DATABASE_HOST_POSTGRESQL": "postgres",
     "PYSRV_DATABASE_PORT": "5432",

@@ -25,28 +25,7 @@ services:
     volumes:
       - shared_config:/conf
     command: >
-      sh -c '
-      printf "{\n\
-      \"PYSRV_IS_PRODUCTION\": \"1\",\n\
-      \"PYSRV_DATABASE_HOST\": \"%s\",\n\
-      \"PYSRV_DATABASE_HOST_POSTGRESQL\": \"%s\",\n\
-      \"PYSRV_DATABASE_PORT\": \"%s\",\n\
-      \"PYSRV_DATABASE_NAME\": \"%s\",\n\
-      \"PYSRV_DATABASE_USER\": \"%s\",\n\
-      \"PYSRV_DATABASE_PASSWORD\": \"%s\",\n\
-      \"PYSRV_CRYPT_KEY\": \"%s\",\n\
-      \"PYSRV_BACKUP_FOLDER\": \"/conf/backups\",\n\
-      \"PYSRV_FIRM_FOLDER\": \"/conf/firmware\",\n\
-      \"PYSRV_COOKIE_HTTPS_ONLY\": \"%s\",\n\
-      \"PYSRV_REDIS_HOST\": \"redis\",\n\
-      \"PYSRV_DOMAIN_NAME\": \"%s\",\n\
-      \"PYSRV_CORS_ALLOW_ORIGIN\": \"%s\"\n\
-      }\n" \
-      "${MW_DB_HOST}" "${MW_DB_HOST}" "${MW_DATABASE_PORT}" "${MW_DB_NAME}" \
-      "${MW_DB_USER}" "${MW_DB_PASSWORD}" "${MW_encryptKey}" \
-      "${MW_COOKIE_HTTPS_ONLY}" "${MW_DOMAIN_NAME}" "${MW_CORS_ALLOW_ORIGIN}" \
-      > /conf/server-conf.json
-      '
+      sh -c "echo '{\"PYSRV_IS_PRODUCTION\":1,\"PYSRV_DATABASE_HOST\":\"${MW_DB_HOST}\",\"PYSRV_DATABASE_HOST_POSTGRESQL\":\"${MW_DB_HOST}\",\"PYSRV_DATABASE_PORT\":\"${MW_DATABASE_PORT}\",\"PYSRV_DATABASE_NAME\":\"${MW_DB_NAME}\",\"PYSRV_DATABASE_USER\":\"${MW_DB_USER}\",\"PYSRV_DATABASE_PASSWORD\":\"${MW_DB_PASSWORD}\",\"PYSRV_CRYPT_KEY\":\"${MW_encryptKey}\",\"PYSRV_BACKUP_FOLDER\":\"/conf/backups\",\"PYSRV_FIRM_FOLDER\":\"/conf/firmware\",\"PYSRV_COOKIE_HTTPS_ONLY\":\"${MW_COOKIE_HTTPS_ONLY}\",\"PYSRV_REDIS_HOST\":\"redis\",\"PYSRV_DOMAIN_NAME\":\"${MW_DOMAIN_NAME}\",\"PYSRV_CORS_ALLOW_ORIGIN\":\"${MW_CORS_ALLOW_ORIGIN}\"}' > /conf/server-conf.json"
 
   mikroman:
     build:

@@ -15,7 +15,7 @@ if [ ! -f /conf/server-conf.json ]; then
     mkdir -p /conf
 cat << EOF1 | tee /conf/server-conf.json
 {
-    "PYSRV_IS_PRODUCTION": "1",
+    "PYSRV_IS_PRODUCTION": 1,
     "PYSRV_DATABASE_HOST": "${PYSRV_DATABASE_HOST}",
     "PYSRV_DATABASE_HOST_POSTGRESQL": "${PYSRV_DATABASE_HOST}",
     "PYSRV_DATABASE_PORT": "${PYSRV_DATABASE_PORT}",
