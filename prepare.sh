@@ -23,8 +23,8 @@ cat << EOF1 | sudo tee ${CONF_PATH}/server-conf.json >/dev/null
 {
     "name": "python server config template - rename me",
     "PYSRV_IS_PRODUCTION": "1",
-    "PYSRV_DATABASE_HOST": "postgresql",
-    "PYSRV_DATABASE_HOST_POSTGRESQL": "postgresql",
+    "PYSRV_DATABASE_HOST": "postgres",
+    "PYSRV_DATABASE_HOST_POSTGRESQL": "postgres",
     "PYSRV_DATABASE_PORT": "5432",
     "PYSRV_DATABASE_NAME": "${MW_DB_NAME}",
     "PYSRV_DATABASE_USER": "${MW_DB_USER}",
@@ -43,8 +43,8 @@ cat << EOF2 | sudo tee ./mikroman/server-conf.json >/dev/null
 {
     "name": "python server config template - rename me",
     "PYSRV_IS_PRODUCTION": "1",
-    "PYSRV_DATABASE_HOST": "postgresql",
-    "PYSRV_DATABASE_HOST_POSTGRESQL": "postgresql",
+    "PYSRV_DATABASE_HOST": "postgres",
+    "PYSRV_DATABASE_HOST_POSTGRESQL": "postgres",
     "PYSRV_DATABASE_PORT": "5432",
     "PYSRV_DATABASE_NAME": "${MW_DB_NAME}",
     "PYSRV_DATABASE_USER": "${MW_DB_USER}",
