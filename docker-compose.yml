@@ -24,7 +24,7 @@ services:
     image: alpine
     command: >
       sh -c "
-        cat << 'EOF' > /shared/config.json
+        cat << 'EOF' > /conf/config.json
         {
           \"PYSRV_IS_PRODUCTION\": \"1\",
           \"PYSRV_DATABASE_HOST\": \"${MW_DB_HOST}\",
