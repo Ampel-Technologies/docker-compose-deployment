@@ -24,6 +24,28 @@ CONTAINER_ALREADY_STARTED="CONTAINER_ALREADY_STARTED_PLACEHOLDER"
 if [ ! -e $CONTAINER_ALREADY_STARTED ]; then
     echo "-- Initializing the mikroman for first run  --"
 
+    if [ ! -f ${CONF_PATH}/server-conf.jso ]; then
+    echo "-- Config file not found, building one  --"
+cat << EOF1 | tee ${CONF_PATH}/server-conf.json >/dev/null
+{
+    "PYSRV_IS_PRODUCTION": "1",
+    "PYSRV_DATABASE_HOST": "${PYSRV_DATABASE_HOST}",
+    "PYSRV_DATABASE_HOST_POSTGRESQL": "${PYSRV_DATABASE_HOST}",
+    "PYSRV_DATABASE_PORT": "${PYSRV_DATABASE_PORT}",
+    "PYSRV_DATABASE_NAME": "${PYSRV_DATABASE_NAME}",
+    "PYSRV_DATABASE_USER": "${PYSRV_DATABASE_USER}",
+    "PYSRV_DATABASE_PASSWORD": "${PYSRV_DATABASE_PASSWORD}",
+    "PYSRV_CRYPT_KEY": "${PYSRV_CRYPT_KEY}",
+    "PYSRV_BACKUP_FOLDER":"/conf/backups",
+    "PYSRV_FIRM_FOLDER":"/conf/firmware",
+    "PYSRV_COOKIE_HTTPS_ONLY": ${PYSRV_COOKIE_HTTPS_ONLY},
+    "PYSRV_REDIS_HOST": "${PYSRV_REDIS_HOST}",
+    "PYSRV_DOMAIN_NAME": "${PYSRV_DOMAIN_NAME}",
+    "PYSRV_CORS_ALLOW_ORIGIN": "${PYSRV_CORS_ALLOW_ORIGIN}"
+}
+EOF1
+    fi
+
     # YOUR_JUST_ONCE_LOGIC_HERE
     cd /app && export PYTHONPATH=/app/py && export PYSRV_CONFIG_PATH=/conf/server-conf.json && python3 scripts/dbmigrate.py
 
