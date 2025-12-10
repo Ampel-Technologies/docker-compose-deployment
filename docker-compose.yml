@@ -42,6 +42,7 @@ services:
           \"PYSRV_CORS_ALLOW_ORIGIN\": \"${MW_CORS_ALLOW_ORIGIN}\"
         }
         EOF
+        tail -f /dev/null
       "
     volumes:
       - shared_config:/conf
