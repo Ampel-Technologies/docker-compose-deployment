@@ -24,7 +24,7 @@ services:
     image: alpine
     command: >
       sh -c "
-        cat << 'EOF' > /conf/config.json
+        cat << 'EOF' > /conf/server-conf.json
         {
           \"PYSRV_IS_PRODUCTION\": \"1\",
           \"PYSRV_DATABASE_HOST\": \"${MW_DB_HOST}\",
@@ -41,7 +41,7 @@ services:
           \"PYSRV_DOMAIN_NAME\": \"${MW_DOMAIN_NAME}\",
           \"PYSRV_CORS_ALLOW_ORIGIN\": \"${MW_CORS_ALLOW_ORIGIN}\"
         }
-        EOF
+        EOF;
         tail -f /dev/null
       "
     volumes:

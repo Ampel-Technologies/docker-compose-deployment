@@ -50,7 +50,7 @@ if [ ! -f $CONTAINER_ALREADY_STARTED ]; then
     echo "-- Initializing the mikroman for first run  --"
 
     # YOUR_JUST_ONCE_LOGIC_HERE
-    cd /app && export PYTHONPATH=/app/py && export PYSRV_CONFIG_PATH=/conf/server-conf.json && python3 scripts/dbmigrate.py
+    cd /app && export PYTHONPATH=/app/py && export PYSRV_CONFIG_PATH=/conf/server-conf.json && python3 scripts/dbmigrate.py | true
 
 cat << EOF1 | tee init.sql >/dev/null
     INSERT INTO public.tasks( signal, name, status) VALUES ( 100, 'check-update',  false);
@@ -88,7 +88,7 @@ cat << EOF1 | tee init.sql >/dev/null
     INSERT INTO public.user_group_perm_rel(group_id, user_id, perm_id) VALUES ( 1, '37cc36e0-afec-4545-9219-94655805868b', 1);
 EOF1
     # Run the Python script
-    python3 /app/initpy.py
+    python3 /app/initpy.py | true
 
     # Check if the Python script ran successfully
     if [ $? -ne 0 ]; then
@@ -99,7 +99,9 @@ EOF1
     fi
         cron
         uwsgi --ini /app/conf/uwsgi.ini:uwsgi-production --touch-reload=/app/reload --http 0.0.0.0:8181
+        tail -f /dev/null
 else
     cron
     uwsgi --ini /app/conf/uwsgi.ini:uwsgi-production --touch-reload=/app/reload --http 0.0.0.0:8181
+    tail -f /dev/null
 fi
