@@ -7,7 +7,6 @@ else
    exit 0
 fi
 
-
 # First Check if db is ready and accepting connections
 
 if [ ! -f /conf/server-conf.json ]; then
@@ -32,6 +31,9 @@ cat << EOF1 | tee /conf/server-conf.json
     "PYSRV_CORS_ALLOW_ORIGIN": "${PYSRV_CORS_ALLOW_ORIGIN}"
 }
 EOF1
+else
+    find /conf
+    cat /conf/server-conf.json
 fi
 
 python3 /app/testdb.py

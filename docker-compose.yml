@@ -20,6 +20,32 @@ services:
     expose:
       - "6379"
 
+  prepare-config:
+    image: alpine
+    command: >
+      sh -c "
+        cat << 'EOF' > /shared/config.json
+        {
+          \"PYSRV_IS_PRODUCTION\": \"1\",
+          \"PYSRV_DATABASE_HOST\": \"${PYSRV_DATABASE_HOST}\",
+          \"PYSRV_DATABASE_HOST_POSTGRESQL\": \"${PYSRV_DATABASE_HOST}\",
+          \"PYSRV_DATABASE_PORT\": \"${PYSRV_DATABASE_PORT}\",
+          \"PYSRV_DATABASE_NAME\": \"${PYSRV_DATABASE_NAME}\",
+          \"PYSRV_DATABASE_USER\": \"${PYSRV_DATABASE_USER}\",
+          \"PYSRV_DATABASE_PASSWORD\": \"${PYSRV_DATABASE_PASSWORD}\",
+          \"PYSRV_CRYPT_KEY\": \"${PYSRV_CRYPT_KEY}\",
+          \"PYSRV_BACKUP_FOLDER\": \"/conf/backups\",
+          \"PYSRV_FIRM_FOLDER\": \"/conf/firmware\",
+          \"PYSRV_COOKIE_HTTPS_ONLY\": \"${PYSRV_COOKIE_HTTPS_ONLY}\",
+          \"PYSRV_REDIS_HOST\": \"${PYSRV_REDIS_HOST}\",
+          \"PYSRV_DOMAIN_NAME\": \"${PYSRV_DOMAIN_NAME}\",
+          \"PYSRV_CORS_ALLOW_ORIGIN\": \"${PYSRV_CORS_ALLOW_ORIGIN}\"
+        }
+        EOF
+      "
+    volumes:
+      - shared_config:/conf
+
   mikroman:
     build:
       context: ./mikroman
@@ -40,16 +66,12 @@ services:
       - PYSRV_REDIS_HOST=redis,
       - PYSRV_CORS_ALLOW_ORIGIN=${PYSRV_CORS_ALLOW_ORIGIN}
     volumes:
-      - ${CONF_PATH}:/conf
-      - ${FIRMWARE_PATH}:/conf/firmware
-      - ${BACKUPS_PATH}:/conf/backups
+      - shared_config:/conf
     depends_on:
       postgres:
         condition: service_healthy
     env_file: .env
-
-
- 
+    
   mikrofront:
     build:
       context: ./mikrofront
@@ -58,7 +80,7 @@ services:
       - "80"
     volumes:
       - ./mikrofront/nginx.conf:/etc/nginx/conf.d/default.conf
-      - ${CONF_PATH}:/conf
+      - shared_config:/conf
     depends_on:
       - mikroman
 volumes:
