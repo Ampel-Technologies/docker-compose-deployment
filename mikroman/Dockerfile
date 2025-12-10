@@ -9,6 +9,7 @@ RUN apt-get install -y iputils-ping
 RUN apt-get install -y net-tools
 RUN apt-get install -y git
 RUN apt-get install -y psutils
+RUN apt-get install -y jq
 
 RUN touch /var/log/cron.log
 RUN  git clone https://github.com/MikroWizard/mikroman.git /app
