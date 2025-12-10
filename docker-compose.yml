@@ -25,20 +25,7 @@ services:
     volumes:
       - shared_config:/conf
     command: >
-      sh -c "apk add --no-cache jq >/dev/null 2>&1 && \
-      jq -n \
-      --arg prod 1 \
-      --arg host \"$MW_DB_HOST\" \
-      --arg port \"$MW_DATABASE_PORT\" \
-      --arg name \"$MW_DB_NAME\" \
-      --arg user \"$MW_DB_USER\" \
-      --arg pass \"$MW_DB_PASSWORD\" \
-      --arg key \"$MW_encryptKey\" \
-      --arg cookie \"$MW_COOKIE_HTTPS_ONLY\" \
-      --arg domain \"$MW_DOMAIN_NAME\" \
-      --arg cors \"$MW_CORS_ALLOW_ORIGIN\" \
-      '{PYSRV_IS_PRODUCTION: $prod, PYSRV_DATABASE_HOST: $host, PYSRV_DATABASE_HOST_POSTGRESQL: $host, PYSRV_DATABASE_PORT: $port, PYSRV_DATABASE_NAME: $name, PYSRV_DATABASE_USER: $user, PYSRV_DATABASE_PASSWORD: $pass, PYSRV_CRYPT_KEY: $key, PYSRV_BACKUP_FOLDER: \"/conf/backups\", PYSRV_FIRM_FOLDER: \"/conf/firmware\", PYSRV_COOKIE_HTTPS_ONLY: $cookie, PYSRV_REDIS_HOST: \"redis\", PYSRV_DOMAIN_NAME: $domain, PYSRV_CORS_ALLOW_ORIGIN: $cors}' \
-      > /conf/server-conf.json"
+      sh -c "echo '{\"PYSRV_IS_PRODUCTION\":1,\"PYSRV_DATABASE_HOST\":\"${MW_DB_HOST}\",\"PYSRV_DATABASE_HOST_POSTGRESQL\":\"${MW_DB_HOST}\",\"PYSRV_DATABASE_PORT\":\"${MW_DATABASE_PORT}\",\"PYSRV_DATABASE_NAME\":\"${MW_DB_NAME}\",\"PYSRV_DATABASE_USER\":\"${MW_DB_USER}\",\"PYSRV_DATABASE_PASSWORD\":\"${MW_DB_PASSWORD}\",\"PYSRV_CRYPT_KEY\":\"${MW_encryptKey}\",\"PYSRV_BACKUP_FOLDER\":\"/conf/backups\",\"PYSRV_FIRM_FOLDER\":\"/conf/firmware\",\"PYSRV_COOKIE_HTTPS_ONLY\":\"${MW_COOKIE_HTTPS_ONLY}\",\"PYSRV_REDIS_HOST\":\"redis\",\"PYSRV_DOMAIN_NAME\":\"${MW_DOMAIN_NAME}\",\"PYSRV_CORS_ALLOW_ORIGIN\":\"${MW_CORS_ALLOW_ORIGIN}\"}' > /conf/server-conf.json"
 
   mikroman:
     build:

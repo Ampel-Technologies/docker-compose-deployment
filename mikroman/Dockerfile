@@ -8,8 +8,7 @@ RUN apt-get -y install cron
 RUN apt-get install -y iputils-ping
 RUN apt-get install -y net-tools
 RUN apt-get install -y git
-RUN apt-get install -y procps
-RUN apt-get install -y jq
+RUN apt-get install -y psutils
 
 RUN touch /var/log/cron.log
 RUN  git clone https://github.com/MikroWizard/mikroman.git /app
