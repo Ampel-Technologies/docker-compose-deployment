@@ -21,14 +21,20 @@ try:
     with open('init.sql', 'r') as sql_file:
         sql_commands = sql_file.read()
 
+    print("Read file successfully.")
+    print(sql_commands)
+
     # Step 4: Execute the SQL commands
     cursor.execute(sql_commands)
+
     if cursor.description:  # Check if there are results
         # Fetch all results
+        print(cursor.description)
         results = cursor.fetchall()
         # Print each row of results
         for row in results:
             print(row)
+
     conn.commit()  # Commit the changes if it's not a SELECT query
     print("Executed SQL commands successfully.")
 
