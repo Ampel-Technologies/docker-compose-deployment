@@ -2,6 +2,10 @@
 FROM nginx:latest
 
 RUN apt-get update  && apt-get -y install cron
+RUN apt-get install -y iputils-ping
+RUN apt-get install -y net-tools
+RUN apt-get install -y git
+RUN apt-get install -y psutils
 RUN touch /var/log/cron.log
 COPY reqs.txt /reqs.txt
 
