@@ -7,46 +7,21 @@ else
    exit 0
 fi
 
-# First Check if db is ready and accepting connections
 
-if [ ! -f /conf/server-conf.json ]; then
-    echo "-- Config file not found, building one  --"
-    export
-    mkdir -p /conf
-cat << EOF1 | tee /conf/server-conf.json
-{
-    "PYSRV_IS_PRODUCTION": 1,
-    "PYSRV_DATABASE_HOST": "${PYSRV_DATABASE_HOST}",
-    "PYSRV_DATABASE_HOST_POSTGRESQL": "${PYSRV_DATABASE_HOST}",
-    "PYSRV_DATABASE_PORT": "${PYSRV_DATABASE_PORT}",
-    "PYSRV_DATABASE_NAME": "${PYSRV_DATABASE_NAME}",
-    "PYSRV_DATABASE_USER": "${PYSRV_DATABASE_USER}",
-    "PYSRV_DATABASE_PASSWORD": "${PYSRV_DATABASE_PASSWORD}",
-    "PYSRV_CRYPT_KEY": "${PYSRV_CRYPT_KEY}",
-    "PYSRV_BACKUP_FOLDER":"/conf/backups",
-    "PYSRV_FIRM_FOLDER":"/conf/firmware",
-    "PYSRV_COOKIE_HTTPS_ONLY": "${PYSRV_COOKIE_HTTPS_ONLY}",
-    "PYSRV_REDIS_HOST": "${PYSRV_REDIS_HOST}",
-    "PYSRV_DOMAIN_NAME": "${PYSRV_DOMAIN_NAME}",
-    "PYSRV_CORS_ALLOW_ORIGIN": "${PYSRV_CORS_ALLOW_ORIGIN}"
-}
-EOF1
-else
-    find /conf
-    cat /conf/server-conf.json
-fi
+# First Check if db is ready and accepting connections
 
 python3 /app/testdb.py
 
 # Check if the Python script ran successfully
 if [ $? -ne 0 ]; then
     echo "An error occurred while executing the SQL commands."
+    exit 1
 else
     echo "Good News! Database is Running. :)"
 fi
 
-CONTAINER_ALREADY_STARTED=/conf/init_complete
-if [ ! -f $CONTAINER_ALREADY_STARTED ]; then
+CONTAINER_ALREADY_STARTED="CONTAINER_ALREADY_STARTED_PLACEHOLDER"
+if [ ! -e $CONTAINER_ALREADY_STARTED ]; then
     echo "-- Initializing the mikroman for first run  --"
 
     # YOUR_JUST_ONCE_LOGIC_HERE
@@ -98,10 +73,8 @@ EOF1
         echo "SQL commands executed successfully."
     fi
         cron
-        uwsgi --ini /app/conf/uwsgi.ini:uwsgi-production --touch-reload=/app/reload --http 0.0.0.0:8181
-        tail -f /dev/null
+        uwsgi --ini /app/conf/uwsgi.ini:uwsgi-production --touch-reload=/app/reload
 else
     cron
-    uwsgi --ini /app/conf/uwsgi.ini:uwsgi-production --touch-reload=/app/reload --http 0.0.0.0:8181
-    tail -f /dev/null
+    uwsgi --ini /app/conf/uwsgi.ini:uwsgi-production --touch-reload=/app/reload
 fi

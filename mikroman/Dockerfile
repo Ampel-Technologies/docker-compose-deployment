@@ -8,7 +8,6 @@ RUN apt-get -y install cron
 RUN apt-get install -y iputils-ping
 RUN apt-get install -y net-tools
 RUN apt-get install -y git
-RUN apt-get install -y psutils
 
 RUN touch /var/log/cron.log
 RUN  git clone https://github.com/MikroWizard/mikroman.git /app
@@ -42,7 +41,7 @@ RUN mkdir /tmp/pysrv_spooler
 # we don't need this file with Docker but uwsgi looks for it
 RUN echo `date +%s` >/app/VERSION
 
-EXPOSE 8181
+EXPOSE 80
 
 
 # our server config file
@@ -52,8 +51,8 @@ EXPOSE 8181
 # - it is also possible to override the config with env variables, either here
 #   or in Amazon ECS or Kubernetes configuration
 #COPY /app/real-server-config.json /app/real-server-config.json
-# ENV PYSRV_DATABASE_HOST postgres
-# ENV PYSRV_REDIS_HOST redis
+# ENV PYSRV_DATABASE_HOST host.docker.internal
+# ENV PYSRV_REDIS_HOST host.docker.internal
 # ENV PYSRV_DATABASE_PASSWORD x
 
 # build either a production or dev image
@@ -64,6 +63,6 @@ ENV ENVBUILDMODE=$BUILDMODE
 RUN echo "BUILDMODE $ENVBUILDMODE"
 
 # run in shell mode with ENV expansion
-RUN cd /app && bash -x init.sh
+RUN cd /app && bash init.sh
 
 
